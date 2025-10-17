@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="{{ current_language }}" dir="{% if current_language == 'ar' %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ get_text('app_name') }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% if current_language == 'ar' %}
+    <style>
+        body { text-align: right; }
+        .navbar .container, .main-content .container, .footer .container { 
+            direction: rtl; 
+            text-align: right;
+        }
+    </style>
+    {% endif %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="{{ url_for('index') }}">{{ get_text('app_name') }}</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">{{ get_text('home') }}</a></li>
+                {% if session.get('user_id') %}
+                    <li><a href="{{ url_for('dashboard') }}">{{ get_text('dashboard') }}</a></li>
+                    <li><a href="{{ url_for('logout') }}" class="btn-logout">{{ get_text('logout') }}</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">{{ get_text('login') }}</a></li>
+                    <li><a href="{{ url_for('register') }}" class="btn-register">{{ get_text('register') }}</a></li>
+                {% endif %}
+                <li class="language-switcher">
+                    <select id="lang-select" data-url="{{ url_for('set_language', lang='') }}" style="padding: 5px; border-radius: 4px; border: 1px solid #ddd;">
+                        <option value="en" {% if current_language == 'en' %}selected{% endif %}>English</option>
+                        <option value="ar" {% if current_language == 'ar' %}selected{% endif %}>العربية</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Rest of your base.html remains the same -->
+    <main class="main-content">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                                <button class="close-alert" onclick="this.parentElement.remove()">&times;</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 {{ get_text('app_name') }}. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('lang-select').addEventListener('change', function() {
+            window.location.href = this.dataset.url + this.value;
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "SECRET_KEY": "your-secret-key-change-this",
+  "SQLALCHEMY_DATABASE_URI": "sqlite:///users.db",
+  "SQLALCHEMY_TRACK_MODIFICATIONS": false,
+  "PERMANENT_SESSION_LIFETIME_DAYS": 7,
+
+  "MAIL_SERVER": "smtp.gmail.com",
+  "MAIL_PORT": 587,
+  "MAIL_USE_TLS": true,
+  "MAIL_USERNAME": "by.root96@gmail.com",
+  "MAIL_PASSWORD": "izrf kbib vfmb ijcw",
+  "MAIL_DEFAULT_SENDER": "by.root96@gmail.com"
+}
